@@ -1,0 +1,29 @@
+{
+  "name": "node-backend-v2",
+  "version": "1.0.0",
+  "description": "node backend v2 for wycode.cn",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm run test",
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "koa",
+    "nodejs",
+    "backend",
+    "api"
+  ],
+  "author": "wycode.cn",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@koa/cors": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "koa-router": "^13.0.1",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.9.0",
+    "nodemailer": "^6.9.15"
+  }
+}

@@ -1,0 +1,490 @@
+openapi: 3.0.0
+info:
+  title: WYCODE API Docs - OpenAPI 3.0
+  description: |
+    This is wycode.cn 's API doc based on the OpenAPI 3.0 specification.  You can find out more at [github](https://github.com/wangyucode/deno-backend).
+  contact:
+    email: wangyu@wycode.cn
+  version: 2024.09.25
+servers:
+  - url: http://localhost:8083/api/v1
+  - url: https://wycode.cn/api/v1
+tags:
+  - name: basic
+  - name: comment
+  - name: clipboard
+  # - name: analysis
+  - name: vending
+paths:
+  /:
+    get:
+      tags:
+        - basic
+      summary: get state
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /email:
+    post:
+      tags:
+        - basic
+      summary: send email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+  
+  /log:
+    post:
+      tags:
+        - basic
+      summary: post log
+      requestBody:
+        content:
+          text/plain:
+            schema: 
+              type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /comment:
+    get:
+      tags:
+        - comment
+      summary: get all comments
+      parameters:
+        - name: a
+          in: query
+          description: app
+          required: true
+          schema:
+            type: string
+        - name: k
+          in: query
+          description: key
+          required: true
+          schema:
+            type: string
+        - name: t
+          in: query
+          description: topic
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+    
+    post:
+      tags:
+        - comment
+      summary: add a comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /wechat/apps:
+    get:
+      tags:
+        - basic
+      summary: get wechat apps
+      parameters:
+        - name: Referer
+          in: header
+          description: referer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /clipboard/wx/{code}:
+    get:
+      tags:
+        - clipboard
+      summary: get clipboard by wechat auth code
+      parameters:
+        - name: code
+          in: path
+          description: wx auth code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /clipboard/notification:
+    get:
+      tags:
+        - clipboard
+      summary: get clipboard notification
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /clipboard/{id}:
+    get:
+      tags:
+        - clipboard
+      summary: get clipboard by id
+      parameters:
+        - name: id
+          in: path
+          description: clipboard id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /clipboard/openid/{openid}:
+    get:
+      tags:
+        - clipboard
+      summary: get clipboard by openid
+      parameters:
+        - name: openid
+          in: path
+          description: openid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /clipboard:
+    post:
+      tags:
+        - clipboard
+      summary: change content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Clipboard'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /analysis/blogs:
+    get:
+      tags:
+        - analysis
+      summary: get blogs access
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /analysis/dashboard:
+    get:
+      tags:
+        - analysis
+      summary: get dashboard url
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /vending/banner: 
+    get:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+  
+  /vending/goods: 
+    get:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+    put:
+      tags:
+        - vending
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+    
+  /vending/order: 
+    get:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+    
+    post:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderDetail'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /vending/code: 
+    get:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+    post:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /vending/reduce:
+    get:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: track
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+  /vending/heartbeat:
+    get:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+
+    put:
+      tags: 
+        - vending
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: field
+          in: query
+          required: true
+          description: 'updateGoods, updateBanner, updateWeb'
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: X-API-Key
+  
+  schemas:
+    State:
+      type: object
+      properties:
+        state:
+          type: string
+          description: state
+          default: ok
+        time:
+          type: number
+          description: timestamp
+    
+    CommonResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        payload:
+          type: object
+    
+    Comment:
+      type: object
+      properties:
+        type:
+          type: number
+        content:
+          type: string
+        app:
+          type: string
+        key:
+          type: string
+        topic:
+          type: string
+        user:
+          type: string
+        to:
+          type: object
+        toId:
+          type: string
+    
+    Clipboard:
+      type: object
+      properties:
+        _id:
+          type: string
+        content:
+          type: string
+    
+    Email:
+      type: object
+      properties:
+        key:
+          type: string
+        to:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+    
+    OrderDetail: 
+      type: object
+      properties:
+        description:
+          type: string
+        total: 
+          type: number
+        goodsDetail:
+          type: array
+          items:
+            type: object
+            properties: 
+              id:
+                type: string
+              count:
+                type: integer

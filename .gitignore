@@ -1,0 +1,4 @@
+mongo/*
+.env
+deno
+node_modules
