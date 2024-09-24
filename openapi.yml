@@ -52,9 +52,9 @@ paths:
       summary: post log
       requestBody:
         content:
-          text/plain:
+          application/json:
             schema: 
-              type: string
+              $ref: '#/components/schemas/Log'
       responses:
         '200':
           content:
@@ -458,6 +458,14 @@ components:
         _id:
           type: string
         content:
+          type: string
+
+    Log:
+      type: object
+      properties:
+        message:
+          type: string
+        type:
           type: string
     
     Email:

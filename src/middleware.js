@@ -20,7 +20,7 @@ export async function errorMiddleware(ctx, next) {
 // API 密钥验证中间件
 export async function apiKeyGuard(ctx, next) {
   const apiKey = ctx.header["x-api-key"];
-  if (apiKey !== env.VENDING_API_KEY) ctx.throw(401);
+  if (apiKey !== process.env.VENDING_API_KEY) ctx.throw(401);
   await next();
 }
 

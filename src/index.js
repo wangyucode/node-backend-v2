@@ -1,6 +1,7 @@
 import Koa from "koa";
 import cors from "@koa/cors";
 import dotenv from "dotenv";
+import bodyParser from "koa-bodyparser";
 
 import { loggerMiddleware, errorMiddleware } from "./middleware.js";
 import router from "./routes.js";
@@ -18,6 +19,7 @@ async function startHttpServer() {
       .use(loggerMiddleware)
       .use(cors())
       .use(errorMiddleware)
+      .use(bodyParser())
       .use(router.routes())
       .use(router.allowedMethods());
 

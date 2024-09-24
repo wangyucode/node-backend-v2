@@ -52,7 +52,7 @@ export async function getComments(ctx) {
 }
 
 export async function postComment(ctx) {
-  const body = await ctx.request.body.json();
+  const body = actx.request.body;
   const { type, content, app, key, topic, user, to, toId } = body;
   console.info('postComment-->', type, content, app, key, topic, user, to, toId);
 

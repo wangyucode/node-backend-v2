@@ -24,7 +24,7 @@ export async function getGoods(ctx) {
 }
 
 export async function putGoods(ctx) {
-  const data = await ctx.request.body.json();
+  const data = ctx.request.body;
   const track = data.track;
   if (!track) ctx.throw(400, "track required");
 
@@ -75,7 +75,7 @@ export async function getCode(ctx) {
 }
 
 export async function postCode(ctx) {
-  const data = await ctx.request.body.json();
+  const data = ctx.request.body;
   if (!data.code || !data.goods || !data.goods.length) ctx.throw(400);
   const cc = db.collection(COLLECTIONS.VENDING_CODE);
 
@@ -115,7 +115,7 @@ export function putHeartbeat(ctx) {
 }
 
 export async function createOrder(ctx) {
-  const { description, total, goodsDetail } = await ctx.request.body.json();
+  const { description, total, goodsDetail } = ctx.request.body;
   log.info("createOrder:", description, total, goodsDetail.length);
   if (!description || !total || !goodsDetail || !goodsDetail.length) {
     ctx.throw(400);
@@ -168,7 +168,7 @@ export async function createOrder(ctx) {
 }
 
 export async function notify(ctx) {
-  const body = await ctx.request.body.json();
+  const body = ctx.request.body;
   log.info(
     "wx notification",
     JSON.stringify(body),

@@ -2,7 +2,7 @@ import { COLLECTIONS, db } from "../mongo.js";
 import { getDataResult } from "../utils.js";
 
 export async function setConfig(ctx) {
-  const { key, value } = await ctx.request.body.json();
+  const { key, value } = ctx.request.body;
   if (!key) ctx.throw(400, "key required");
   if (!value) ctx.throw(400, "value required");
   setConfigInternal(key, value);

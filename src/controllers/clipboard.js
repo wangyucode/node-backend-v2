@@ -30,7 +30,7 @@ export async function getByOpenid(ctx) {
 }
 
 export async function saveById(ctx) {
-  const data = await ctx.request.body.json();
+  const data = ctx.request.body;
   if (!data._id) ctx.throw(400, "_id required");
   const cc = db.collection(COLLECTIONS.CLIPBOARD);
   const result = await cc.updateOne(
@@ -48,8 +48,8 @@ export async function getByWxCode(ctx) {
   const code = ctx?.params?.code;
   if (!code) ctx.throw(400, "code required");
   const { openid } = await getWechatSession(
-    env.WX_APPID_CLIPBOARD,
-    env.WX_SECRET_CLIPBOARD,
+    process.env.WX_APPID_CLIPBOARD,
+    process.env.WX_SECRET_CLIPBOARD,
     code,
   );
   if (openid) {

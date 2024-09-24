@@ -11,16 +11,13 @@ export async function getWechatSession(appid, secret, jscode) {
 }
 
 export async function getWechatApps(ctx) {
-  const appid = ctx.request.headers
-    .get("referer")
-    ?.match(/^https:\/\/servicewechat.com\/+(\w+)\/.*$/)?.[1];
+  const { referer } = ctx.request.headers;
+  const appid = referer?.match(
+    /^https:\/\/servicewechat.com\/+(\w+)\/.*$/
+  )?.[1];
   if (!appid) {
-    log.error("非法访问 /wechat/apps ->", ctx.request.headers.get("referer"));
-    if (isProd()) {
-      sendEmail(
-        "非法访问 /wechat/apps ->" + ctx.request.headers.get("referer")
-      );
-    }
+    console.error("非法访问 /wechat/apps ->", referer);
+    sendEmail("非法访问 /wechat/apps ->" + referer);
     ctx.throw(400);
   }
   ctx.response.body = getDataResult(
