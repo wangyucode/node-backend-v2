@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 import { COLLECTIONS, CONFIG_KEYS, db } from "../mongo.js";
 import { sendEmail } from "../notifier.js";
 import { getDataResult, getErrorResult } from "../utils.js";
@@ -14,7 +16,7 @@ export async function getById(ctx) {
   if (!_id) ctx.throw(400, "id required");
   const cc = db.collection(COLLECTIONS.CLIPBOARD);
   const result = await cc.findOne({ _id }, {
-    projection: { content: 1, createDate: 1, lastUpdate: 1, tips: 1 },
+    projection: { content: 1, createDate: 1, lastUpdate: 1 },
   });
   ctx.response.body = result ? getDataResult(result) : getErrorResult("未找到");
 }
@@ -64,7 +66,6 @@ export async function getByWxCode(ctx) {
         _id: id,
         content:
           "请输入你想保存的内容,内容可在网页端: https://wycode.cn/clipboard 使用查询码查询,或小程序免登录查询。",
-        tips: "",
         openid,
         createDate: now,
         lastUpdate: now,
@@ -85,7 +86,6 @@ async function findByOpenid(openid) {
       content: 1,
       createDate: 1,
       lastUpdate: 1,
-      tips: 1,
       openid: 1,
     },
   });
