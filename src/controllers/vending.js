@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { COLLECTIONS, db } from "../mongo.js";
 import { getDataResult, getErrorResult } from "../utils.js";
 import { sendEmail } from "../notifier.js";
@@ -15,11 +17,16 @@ export async function getBanners(ctx) {
 }
 
 export async function getGoods(ctx) {
-  const type = ctx.request.url.searchParams.get("type");
+  const { type } = ctx.request.query;
   const cc = db.collection(COLLECTIONS.VENDING_GOODS);
-  const result = await cc.find({ type }, {
-    sort: { track: 1 },
-  }).toArray();
+  const result = await cc
+    .find(
+      { type },
+      {
+        sort: { track: 1 },
+      }
+    )
+    .toArray();
   ctx.response.body = result ? getDataResult(result) : getErrorResult("未找到");
 }
 
@@ -28,12 +35,11 @@ export async function putGoods(ctx) {
   const track = data.track;
   if (!track) ctx.throw(400, "track required");
 
-  data.mainImg =
-    `https://wycode.cn/upload/image/vending/goods/${track}/main.webp`;
+  data.mainImg = `https://wycode.cn/upload/image/vending/goods/${track}/main.webp`;
   data.images = [];
   for (let index = 1; index <= data.imageCount; index++) {
     data.images.push(
-      `https://wycode.cn/upload/image/vending/goods/${track}/${index}.webp`,
+      `https://wycode.cn/upload/image/vending/goods/${track}/${index}.webp`
     );
   }
   data.imageCount = undefined;
@@ -44,7 +50,7 @@ export async function putGoods(ctx) {
 }
 
 export async function getOrder(ctx) {
-  const id = ctx.request.url.searchParams.get("id");
+  const { id } = ctx.request.query;
   const cc = db.collection(COLLECTIONS.VENDING_ORDER);
   const result = id
     ? await cc.findOne({ _id: new ObjectId(id) })
@@ -53,7 +59,7 @@ export async function getOrder(ctx) {
 }
 
 export async function getCode(ctx) {
-  const code = ctx.request.url.searchParams.get("code");
+  const { code } = ctx.request.query;
   const cc = db.collection(COLLECTIONS.VENDING_CODE);
   if (!code) {
     const result = await cc.find({ usedTime: { $exists: false } }).toArray();
@@ -62,9 +68,12 @@ export async function getCode(ctx) {
     const result = await cc.findOne({ code });
     if (result) {
       if (!result.usedTime) {
-        await cc.updateOne({ _id: result._id }, {
-          $set: { usedTime: new Date() },
-        });
+        await cc.updateOne(
+          { _id: result._id },
+          {
+            $set: { usedTime: new Date() },
+          }
+        );
         sendEmail(`提货码 ${code} 被使用`);
       }
       ctx.response.body = getDataResult(result);
@@ -83,9 +92,7 @@ export async function postCode(ctx) {
 }
 
 export async function reduce(ctx) {
-  const track = Number.parseInt(
-    ctx.request.url.searchParams.get("track") || "",
-  );
+  const track = Number.parseInt(ctx.request.query.track);
   const cc = db.collection(COLLECTIONS.VENDING_GOODS);
   const result = await cc.updateOne({ track }, { $inc: { stock: -1 } });
   ctx.response.body = getDataResult(result);
@@ -96,7 +103,7 @@ export function heartbeat(ctx) {
   clearTimeout(heartbeatTimeoutId);
   heartbeatTimeoutId = setTimeout(
     () => sendEmail("客户端掉线"),
-    HEARTBEAT_TIMEOUT,
+    HEARTBEAT_TIMEOUT
   );
 
   const now = new Date().getTime();
@@ -108,7 +115,7 @@ export function heartbeat(ctx) {
 }
 
 export function putHeartbeat(ctx) {
-  const field = ctx.request.url.searchParams.get("field");
+  const {field} = ctx.request.query;
   if (!field) ctx.throw(400);
   heartbeatContent[field] = true;
   ctx.response.body = getDataResult("ok");
@@ -141,12 +148,12 @@ export async function createOrder(ctx) {
       body: JSON.stringify(params),
       method: "POST",
       headers: {
-        "Authorization": authorization,
-        "Accept": "application/json",
+        Authorization: authorization,
+        Accept: "application/json",
         "Content-Type": "application/json",
         "Accept-Language": "zh-CN",
       },
-    },
+    }
   );
   const data = await res.json();
   data.out_trade_no = out_trade_no;
@@ -172,7 +179,7 @@ export async function notify(ctx) {
   log.info(
     "wx notification",
     JSON.stringify(body),
-    JSON.stringify(ctx.request.headers),
+    JSON.stringify(ctx.request.headers)
   );
   const pay = getWxPay();
   const params = {
@@ -197,9 +204,12 @@ export async function notify(ctx) {
     if (!result) ctx.throw(403, "解密失败");
 
     const cc = db.collection(COLLECTIONS.VENDING_ORDER);
-    await cc.updateOne({ _id: new ObjectId(result.out_trade_no) }, {
-      $set: result,
-    });
+    await cc.updateOne(
+      { _id: new ObjectId(result.out_trade_no) },
+      {
+        $set: result,
+      }
+    );
     sendEmail(`订单支付成功：\n${resultString}`);
   }
 
@@ -221,8 +231,8 @@ export function getWxPay() {
     wxPay["getRequest"] = async (url, authorization) => {
       const res = await fetch(url, {
         headers: {
-          "Accept": "application/json",
-          "Authorization": authorization,
+          Accept: "application/json",
+          Authorization: authorization,
           "Accept-Language": "zh-CN",
         },
       });

@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { COLLECTIONS, db } from "../mongo.js";
 import { getDataResult } from "../utils.js";
 
@@ -10,7 +12,7 @@ export async function setConfig(ctx) {
 }
 
 export async function getConfig(ctx) {
-  const key = ctx.request.url.searchParams.get("key");
+  const { key } = ctx.request.query;
   if (!key) ctx.throw(400, "key required");
   const config = await getConfigInternal(key);
   if (!config) ctx.throw(404, "配置不存在");
@@ -23,15 +25,19 @@ export async function deleteConfig(ctx) {
   ctx.response.body = getDataResult(
     await db.collection(COLLECTIONS.CONFIG).deleteOne({
       _id: new ObjectId(id),
-    }),
+    })
   );
 }
 
 export async function setConfigInternal(key, value) {
   const configs = db.collection(COLLECTIONS.CONFIG);
-  await configs.updateOne({ _id: key }, {
-    $set: { _id: key, value, date: new Date() },
-  }, { upsert: true });
+  await configs.updateOne(
+    { _id: key },
+    {
+      $set: { _id: key, value, date: new Date() },
+    },
+    { upsert: true }
+  );
 }
 
 export async function getConfigInternal(key) {

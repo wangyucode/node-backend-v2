@@ -5,10 +5,7 @@ import { getConfig } from "./config.js";
 import { getWechatSession } from "./wechat.js";
 
 export async function getNotification(ctx) {
-  ctx.request.url.searchParams.append(
-    "key",
-    CONFIG_KEYS.CONFIG_NOTIFICATION_CLIPBOARD,
-  );
+  ctx.request.query = {...ctx.request.query , "key": CONFIG_KEYS.CONFIG_NOTIFICATION_CLIPBOARD};
   return await getConfig(ctx);
 }
 
