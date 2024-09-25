@@ -21,8 +21,9 @@ const router = new Router()
   // comment
   .post("/comment", comments.postComment)
   .get("/comment", comments.getComments)
-
+  // config
   .get("/config", config.getConfig)
+  // clipboard
   .get("/clipboard/wx/:code", clipboard.getByWxCode)
   .get("/clipboard/notification", clipboard.getNotification)
   .get("/clipboard/:id", clipboard.getById)
