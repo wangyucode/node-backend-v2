@@ -27,7 +27,7 @@ async function startHttpServer() {
       console.log(`server listening on ${process.env.PORT}`);
       // 发送邮件通知
       sendEmail(
-        `node-backend start successfully on: ${new Date().toISOString()}.`
+        `node-backend start successfully on: ${new Date().toLocaleString()}.`
       );
     });
   } catch (e) {

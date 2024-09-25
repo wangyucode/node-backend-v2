@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const FROM_EMAIL = "your-email@example.com"; // 替换为实际的发件人邮箱
+const FROM_EMAIL = "wayne001@vip.qq.com";
 
 export async function sendEmail(
   content,
