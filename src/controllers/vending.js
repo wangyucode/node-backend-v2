@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import WxPay from "wechatpay-node-v3";
 
 import { COLLECTIONS, db } from "../mongo.js";
 import { getDataResult, getErrorResult } from "../utils.js";
@@ -123,7 +124,7 @@ export function putHeartbeat(ctx) {
 
 export async function createOrder(ctx) {
   const { description, total, goodsDetail } = ctx.request.body;
-  log.info("createOrder:", description, total, goodsDetail.length);
+  console.info("createOrder:", description, total, goodsDetail.length);
   if (!description || !total || !goodsDetail || !goodsDetail.length) {
     ctx.throw(400);
   }
@@ -157,7 +158,7 @@ export async function createOrder(ctx) {
   );
   const data = await res.json();
   data.out_trade_no = out_trade_no;
-  log.info("createOrder: data: ", JSON.stringify(data));
+  console.info("createOrder: data: ", JSON.stringify(data));
   if (res.status === 200) {
     const cc = db.collection(COLLECTIONS.VENDING_ORDER);
     await cc.insertOne({
@@ -176,7 +177,7 @@ export async function createOrder(ctx) {
 
 export async function notify(ctx) {
   const body = ctx.request.body;
-  log.info(
+  console.info(
     "wx notification",
     JSON.stringify(body),
     JSON.stringify(ctx.request.headers)
@@ -190,7 +191,7 @@ export async function notify(ctx) {
     timestamp: ctx.request.headers.get("wechatpay-timestamp") || 0,
   };
   const ret = await pay.verifySign(params);
-  log.info("验签结果:", ret);
+  console.info("验签结果:", ret);
   if (!ret) ctx.throw(401);
 
   if (body.event_type === "TRANSACTION.SUCCESS") {
@@ -200,7 +201,7 @@ export async function notify(ctx) {
       body.resource.nonce
     );
     const resultString = JSON.stringify(result);
-    log.info("解密结果:", resultString);
+    console.info("解密结果:", resultString);
     if (!result) ctx.throw(403, "解密失败");
 
     const cc = db.collection(COLLECTIONS.VENDING_ORDER);
@@ -227,20 +228,6 @@ export function getWxPay() {
       privateKey: key,
       key: process.env.VENDING_WX_APIV3_KEY,
     });
-
-    wxPay["getRequest"] = async (url, authorization) => {
-      const res = await fetch(url, {
-        headers: {
-          Accept: "application/json",
-          Authorization: authorization,
-          "Accept-Language": "zh-CN",
-        },
-      });
-      const data = await res.json();
-      log.info(JSON.stringify(data));
-      data.status = res.status;
-      return data;
-    };
   }
 
   return wxPay;
