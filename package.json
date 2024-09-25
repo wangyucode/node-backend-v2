@@ -1,6 +1,6 @@
 {
   "name": "node-backend-v2",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "node backend v2 for wycode.cn",
   "main": "index.js",
   "type": "module",
