@@ -42,6 +42,10 @@ jobs:
             wangyucode/node-backend:latest
             wangyucode/node-backend:${{ steps.read-version.outputs.VERSION }}
 
+      - name: Call watchtower to check image
+        run: |
+            curl -m 600 -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" wycode.cn:8086/v1/update
+
       - name: upload api docs
         uses: wangyucode/sftp-upload-action@v2.0.2
         with:
