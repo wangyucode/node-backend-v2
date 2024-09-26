@@ -13,8 +13,3 @@ This is the backend API service for wycode.cn, which is built with Koa.
 ## run
 
 `npm start`
-
-## run test
-
-`npm test`
-
