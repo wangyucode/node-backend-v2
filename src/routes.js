@@ -3,7 +3,7 @@ import { state } from "./controllers/state.js";
 import * as comments from "./controllers/comment.js";
 import * as wechat from "./controllers/wechat.js";
 import * as clipboard from "./controllers/clipboard.js";
-// import * as analysis from "./controllers/analysis.js";
+import * as analysis from "./controllers/analysis.js";
 import * as email from "./controllers/email.js";
 // import * as chat from "./controllers/chat.js";
 import * as config from "./controllers/config.js";
@@ -29,10 +29,9 @@ const router = new Router()
   .get("/clipboard/:id", clipboard.getById)
   .get("/clipboard/openid/:openid", clipboard.getByOpenid)
   .post("/clipboard", clipboard.saveById)
-  //   .get("/analysis/blogs", analysis.getBlogs)
-  //   .get("/analysis/dashboard", analysis.getDashboardUrl)
-  //   .get("/ws/create", chat.create)
-  //   .get("/ws/join", chat.join)
+  .get("/analysis/blogs", analysis.getBlogs)
+  // .get("/ws/create", chat.create)
+  // .get("/ws/join", chat.join)
   .get("/vending/banner", apiKeyGuard, vending.getBanners)
   .get("/vending/goods", apiKeyGuard, vending.getGoods)
   .put("/vending/goods", apiKeyGuard, vending.putGoods)
