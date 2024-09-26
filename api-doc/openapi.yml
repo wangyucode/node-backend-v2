@@ -14,7 +14,7 @@ tags:
   - name: comment
   - name: config
   - name: clipboard
-  #- name: analysis
+  - name: analysis
   - name: vending
 paths:
   /:
@@ -234,29 +234,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommonResult'
 
-  # /analysis/blogs:
-  #   get:
-  #     tags:
-  #       - analysis
-  #     summary: get blogs access
-  #     responses:
-  #       '200':
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/CommonResult'
-
-    # /analysis/dashboard:
-    # get:
-    #   tags:
-    #     - analysis
-    #   summary: get dashboard url
-    #   responses:
-    #     '200':
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: '#/components/schemas/CommonResult'
+  /analysis/blogs:
+    get:
+      tags:
+        - analysis
+      summary: get blogs access
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
 
   /vending/banner: 
     get:
