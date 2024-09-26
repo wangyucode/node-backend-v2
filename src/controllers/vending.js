@@ -185,10 +185,10 @@ export async function notify(ctx) {
   const pay = getWxPay();
   const params = {
     body,
-    signature: ctx.request.headers.get("wechatpay-signature") || "",
-    serial: ctx.request.headers.get("wechatpay-serial") || "",
-    nonce: ctx.request.headers.get("wechatpay-nonce") || "",
-    timestamp: ctx.request.headers.get("wechatpay-timestamp") || 0,
+    signature: ctx.request.headers["wechatpay-signature"] || "",
+    serial: ctx.request.headers["wechatpay-serial"] || "",
+    nonce: ctx.request.headers["wechatpay-nonce"] || "",
+    timestamp: ctx.request.headers["wechatpay-timestamp"] || 0,
   };
   const ret = await pay.verifySign(params);
   console.info("验签结果:", ret);
