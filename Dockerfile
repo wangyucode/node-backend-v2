@@ -4,14 +4,17 @@ FROM node:22.19.0
 # 设置工作目录
 WORKDIR /wycode
 
+# 安装pnpm
+RUN npm install -g pnpm
+
 # 将当前目录的内容复制到容器中的 /wycode
 COPY . .
 
 # 安装依赖
-RUN npm ci
+RUN pnpm install
 
 # 暴露端口
 EXPOSE 8083
 
 # 运行应用
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
