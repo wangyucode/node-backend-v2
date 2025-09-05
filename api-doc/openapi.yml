@@ -14,8 +14,6 @@ tags:
   - name: comment
   - name: config
   - name: clipboard
-  - name: analysis
-  - name: vending
 paths:
   /:
     get:
@@ -45,23 +43,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResult'
-  
-  /log:
-    post:
-      tags:
-        - basic
-      summary: post log
-      requestBody:
-        content:
-          application/json:
-            schema: 
-              $ref: '#/components/schemas/Log'
-      responses:
-        '200':
-          content:
-            text/plain:
-              schema:
-                type: string
 
   /comment:
     get:
@@ -234,182 +215,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommonResult'
 
-  /analysis/blogs:
-    get:
-      tags:
-        - analysis
-      summary: get blogs access
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-  /vending/banner: 
-    get:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-  
-  /vending/goods: 
-    get:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-    put:
-      tags:
-        - vending
-      security:
-        - ApiKeyAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-    
-  /vending/order: 
-    get:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - name: id
-          in: query
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-    
-    post:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderDetail'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-  /vending/code: 
-    get:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - name: code
-          in: query
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-    post:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-  /vending/reduce:
-    get:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - name: track
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-  /vending/heartbeat:
-    get:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResult'
-
-    put:
-      tags: 
-        - vending
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - name: field
-          in: query
-          required: true
-          description: 'updateGoods, updateBanner, updateWeb'
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            text/plain:
-              schema:
-                type: string
-
 components:
   
   securitySchemes:
@@ -468,14 +273,6 @@ components:
         content:
           type: string
 
-    Log:
-      type: object
-      properties:
-        message:
-          type: string
-        type:
-          type: string
-    
     Email:
       type: object
       properties:
@@ -487,20 +284,3 @@ components:
           type: string
         content:
           type: string
-    
-    OrderDetail: 
-      type: object
-      properties:
-        description:
-          type: string
-        total: 
-          type: number
-        goodsDetail:
-          type: array
-          items:
-            type: object
-            properties: 
-              id:
-                type: string
-              count:
-                type: integer

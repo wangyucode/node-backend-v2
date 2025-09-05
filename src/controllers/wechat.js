@@ -12,6 +12,28 @@ export async function getWechatSession(appid, secret, jscode) {
 
 export async function getWechatApps(ctx) {
   const { referer } = ctx.request.headers;
+
+  // 检查是否为本地调试环境（localhost或私有IP地址）
+  const isLocalDebug = referer && (
+    referer.includes('localhost') ||
+    referer.includes('127.0.0.1') ||
+    referer.match(/^https?:\/\/172\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/) ||
+    referer.match(/^https?:\/\/192\.168\.(\d{1,3})\.(\d{1,3})/) ||
+    referer.match(/^https?:\/\/10\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/)
+  );
+
+  if (isLocalDebug) {
+    // 本地调试环境：返回所有应用列表
+    ctx.response.body = getDataResult(
+      await db
+        .collection(COLLECTIONS.WECHAT_APP)
+        .find({})
+        .toArray()
+    );
+    return;
+  }
+
+  // 生产环境：原有逻辑
   const appid = referer?.match(
     /^https:\/\/servicewechat.com\/+(\w+)\/.*$/
   )?.[1];

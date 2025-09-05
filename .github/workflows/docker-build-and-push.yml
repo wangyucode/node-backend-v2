@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main # 或者你希望触发的分支
+      - main
   workflow_dispatch:
 
 jobs:
@@ -13,6 +13,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -44,7 +57,7 @@ jobs:
 
       - name: Call watchtower to check image
         run: |
-            curl -m 600 -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" wycode.cn:8086/v1/update
+          curl -m 600 -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" wycode.cn:8086/v1/update
 
       - name: upload api docs
         uses: wangyucode/sftp-upload-action@v2.0.2

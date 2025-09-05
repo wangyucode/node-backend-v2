@@ -1,4 +1,4 @@
-# deno-backend
+# wycode-backend
 
 This is the backend API service for wycode.cn, which is built with Koa.
 
