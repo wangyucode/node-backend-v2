@@ -7,11 +7,12 @@ WORKDIR /wycode
 # 安装pnpm
 RUN npm install -g pnpm
 
-# 将当前目录的内容复制到容器中的 /wycode
-COPY . .
-
+# 先复制package.json和锁文件
+COPY package.json pnpm-lock.yaml ./
 # 安装依赖
 RUN pnpm install --frozen-lockfile
+# 再复制其他代码
+COPY . .
 
 # 暴露端口
 EXPOSE 8083
