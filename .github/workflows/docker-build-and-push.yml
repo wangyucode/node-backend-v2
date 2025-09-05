@@ -64,4 +64,4 @@ jobs:
           localDir: "api-doc"
           dryRun: false
           compress: true
-          remoteDir: "/root/data/www/swagger-ui/"
+          remoteDir: "/home/ubuntu/docker/www/swagger-ui/"
