@@ -11,7 +11,7 @@ RUN npm install -g pnpm
 COPY . .
 
 # 安装依赖
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 # 暴露端口
 EXPOSE 8083
