@@ -16,7 +16,6 @@ const router = new Router()
   // basic
   .get("/", state)
   .post("/email", email.send)
-  .post("/log", logFromClient)
   .get("/wechat/apps", wechat.getWechatApps)
   // comment
   .post("/comment", comments.postComment)
@@ -29,19 +28,5 @@ const router = new Router()
   .get("/clipboard/:id", clipboard.getById)
   .get("/clipboard/openid/:openid", clipboard.getByOpenid)
   .post("/clipboard", clipboard.saveById)
-  .get("/analysis/blogs", analysis.getBlogs)
-  // .get("/ws/create", chat.create)
-  // .get("/ws/join", chat.join)
-  .get("/vending/banner", apiKeyGuard, vending.getBanners)
-  .get("/vending/goods", apiKeyGuard, vending.getGoods)
-  .put("/vending/goods", apiKeyGuard, vending.putGoods)
-  .post("/vending/order", apiKeyGuard, vending.createOrder)
-  .get("/vending/order", apiKeyGuard, vending.getOrder)
-  .get("/vending/code", apiKeyGuard, vending.getCode)
-  .post("/vending/code", apiKeyGuard, vending.postCode)
-  .get("/vending/reduce", apiKeyGuard, vending.reduce)
-  .get("/vending/heartbeat", apiKeyGuard, vending.heartbeat)
-  .put("/vending/heartbeat", apiKeyGuard, vending.putHeartbeat)
-  .post("/vending/wx-notify", vending.notify);
 
 export default router;

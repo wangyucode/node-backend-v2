@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main # 或者你希望触发的分支
+      - main
   workflow_dispatch:
 
 jobs:
@@ -44,7 +44,7 @@ jobs:
 
       - name: Call watchtower to check image
         run: |
-            curl -m 600 -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" wycode.cn:8086/v1/update
+          curl -m 600 -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" wycode.cn:8086/v1/update
 
       - name: upload api docs
         uses: wangyucode/sftp-upload-action@v2.0.2
