@@ -66,3 +66,20 @@ jobs:
           dryRun: false
           compress: true
           remoteDir: "/home/ubuntu/docker/www/swagger-ui/"
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: "wycode.cn"
+          username: "${{ secrets.SERVER_USER }}"
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            # 拉取最新的镜像
+            docker pull wangyucode/node-backend:latest
+
+            # 进入项目目录
+            cd /root/docker/
+
+            # 重启服务
+            docker-compose down
+            docker-compose up -d
