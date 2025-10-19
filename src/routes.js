@@ -5,6 +5,8 @@ import * as wechat from "./controllers/wechat.js";
 import * as clipboard from "./controllers/clipboard.js";
 import * as email from "./controllers/email.js";
 import * as config from "./controllers/config.js";
+import * as coze from "./controllers/coze.js";
+import * as blog from "./controllers/blog.js";
 
 const router = new Router()
   .prefix("/api/v1")
@@ -23,5 +25,10 @@ const router = new Router()
   .get("/clipboard/:id", clipboard.getById)
   .get("/clipboard/openid/:openid", clipboard.getByOpenid)
   .post("/clipboard", clipboard.saveById)
+  // coze
+  .get("/coze/token", coze.token)
+  // blog counter
+  .get("/blog-view", blog.view)
+  .get("/popular-posts", blog.getPopularPosts)
 
 export default router;
