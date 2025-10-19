@@ -8,7 +8,7 @@ import { getDataResult } from '../utils.js';
  * 使用OAuth JWT方式进行认证
  */
 export const token = async (ctx) => {
-    let jwtToken = await getJWTToken({
+    const jwtToken = await getJWTToken({
         baseURL: 'https://api.coze.cn',
         appId: process.env.COZE_APP_ID,
         aud: 'api.coze.cn',
@@ -16,6 +16,5 @@ export const token = async (ctx) => {
         privateKey: process.env.COZE_PRIVATE_KEY,
         sessionName: uniqueId(), // optional Isolate different sub-resources under the same jwt account
     });
-    console.log('getJWTToken', jwtToken);
     ctx.response.body = getDataResult(jwtToken);
 };

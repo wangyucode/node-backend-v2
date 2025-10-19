@@ -16,6 +16,7 @@ export const COLLECTIONS = {
   VENDING_GOODS: 'vendingGoods',
   VENDING_ORDER: 'vendingOrder',
   VENDING_CODE: 'vendingCode',
+  BLOG_VIEW: 'blogView',
 };
 
 export const CONFIG_KEYS = {

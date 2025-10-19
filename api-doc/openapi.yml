@@ -214,6 +214,85 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResult'
+  
+  /coze/token:
+    get:
+      tags:
+        - basic
+      summary: get coze access token
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+  
+  /blog-view:
+    get:
+      tags:
+        - basic
+      summary: record blog view count
+      parameters:
+        - name: id
+          in: query
+          description: post id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+  
+  /popular-posts:
+    get:
+      tags:
+        - basic
+      summary: get popular blog posts
+      parameters:
+        - name: days
+          in: query
+          description: days range (default: 30)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: result limit (default: 10, max: 50)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResult'
 
 components:
   
@@ -284,3 +363,26 @@ components:
           type: string
         content:
           type: string
+    
+    BlogView:
+      type: object
+      properties:
+        postId:
+          type: string
+        viewCount:
+          type: integer
+        lastViewTime:
+          type: string
+          format: date-time
+    
+    PopularPostsResponse:
+      type: object
+      properties:
+        days:
+          type: integer
+        limit:
+          type: integer
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogView'
