@@ -33,8 +33,8 @@ importers:
         specifier: ^6.10.0
         version: 6.19.0
       nodemailer:
-        specifier: ^7.0.7
-        version: 7.0.7
+        specifier: ^7.0.9
+        version: 7.0.9
       wechatpay-node-v3:
         specifier: ^2.2.1
         version: 2.2.1
@@ -1482,8 +1482,8 @@ packages:
   node-releases@2.0.25:
     resolution: {integrity: sha512-4auku8B/vw5psvTiiN9j1dAOsXvMoGqJuKJcR+dTdqiXEK20mMTk1UEo3HS16LeGQsVG6+qKTPM9u/qQ2LqATA==}
 
-  nodemailer@7.0.7:
-    resolution: {integrity: sha512-jGOaRznodf62TVzdyhKt/f1Q/c3kYynk8629sgJHpRzGZj01ezbgMMWJSAjHADcwTKxco3B68/R+KHJY2T5BaA==}
+  nodemailer@7.0.9:
+    resolution: {integrity: sha512-9/Qm0qXIByEP8lEV2qOqcAW7bRpL8CR9jcTwk3NBnHJNmP9fIJ86g2fgmIXqHY+nj55ZEMwWqYAT2QTDpRUYiQ==}
     engines: {node: '>=6.0.0'}
 
   normalize-path@3.0.0:
@@ -3679,7 +3679,7 @@ snapshots:
 
   node-releases@2.0.25: {}
 
-  nodemailer@7.0.7: {}
+  nodemailer@7.0.9: {}
 
   normalize-path@3.0.0: {}
 
