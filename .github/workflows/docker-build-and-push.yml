@@ -65,7 +65,7 @@ jobs:
           localDir: "api-doc"
           dryRun: false
           compress: true
-          remoteDir: "/home/ubuntu/docker/www/swagger-ui/"
+          remoteDir: "/root/docker/www/swagger-ui/"
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
@@ -81,5 +81,4 @@ jobs:
             cd /root/docker/
 
             # 重启服务
-            docker-compose down
-            docker-compose up -d
+            docker compose up -d --force-recreate node
