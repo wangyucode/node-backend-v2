@@ -1,5 +1,5 @@
 # 使用官方 Node.js 镜像作为基础镜像
-FROM node:22
+FROM node:22.21.1
 
 # 设置工作目录
 WORKDIR /wycode
