@@ -25,7 +25,7 @@
     "koa": "^3.0.3",
     "koa-bodyparser": "^4.4.1",
     "lodash-es": "^4.17.21",
-    "mongodb": "^6.20.0",
+    "mongodb": "^7.0.0",
     "nodemailer": "^7.0.9",
     "wechatpay-node-v3": "^2.2.1"
   },
